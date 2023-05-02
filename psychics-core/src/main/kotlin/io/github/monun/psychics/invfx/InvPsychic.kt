@@ -60,7 +60,7 @@ object InvPsychic {
         return InvFX.frame(1, text("PSYCHICS")) {
             item(0, 0, psychicConcept.renderTooltip().applyTo(ItemStack(Material.ENCHANTED_BOOK)))
             item(8, 0, helpItem)
-            list(2, 0, 5, 1, true, { psychicConcept.abilityConcepts }) {
+            list(2, 0, 6, 0, true, { psychicConcept.abilityConcepts }) {
                 transform { it.renderTooltip(stats).applyTo(it.wand ?: ItemStack(Material.BOOK)) }
                 onClickItem { _, _, (item, _), event ->
                     event.whoClicked.inventory.addItemNonDuplicate(item.supplyItems)
