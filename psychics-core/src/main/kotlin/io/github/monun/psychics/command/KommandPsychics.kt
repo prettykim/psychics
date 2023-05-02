@@ -43,8 +43,6 @@ internal object KommandPsychics {
         this.manager = manager
 
         kommand.register("psychics", "psy") {
-            permission("psychics.commands")
-
             val psychicConceptArgument = dynamic { _, input ->
                 manager.getPsychicConcept(input)
             }.apply {

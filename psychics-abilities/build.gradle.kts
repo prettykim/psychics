@@ -1,4 +1,6 @@
-import org.gradle.kotlin.dsl.support.zipTo
+plugins {
+    kotlin("jvm") version "1.8.20"
+}
 
 val core = project(":${rootProject.name}-core")
 
@@ -30,14 +32,6 @@ subprojects {
             archiveVersion.set("")
             archiveBaseName.set("${project.group}.${project.name.removePrefix("ability-")}")
             from(sourceSets["main"].output)
-
-            doLast {
-                copy {
-                    from(archiveFile)
-                    val plugins = File(rootDir, ".debug/plugins/Psychics/abilities")
-                    into(if (File(plugins, archiveFileName.get()).exists()) File(plugins, "update") else plugins)
-                }
-            }
         }
 
         rootProject.tasks {
@@ -46,20 +40,4 @@ subprojects {
             }
         }
     }
-}
-
-gradle.buildFinished {
-    val abilitiesDir = File(buildDir,"abilities")
-    abilitiesDir.mkdir()
-
-    subprojects
-        .map { File(it.buildDir, "libs") }
-        .filter { it.exists() }
-        .mapNotNull { it.listFiles()!!.singleOrNull() }
-        .forEach {
-            val newFile = File(abilitiesDir,it.name)
-            it.copyTo(newFile,true)
-        }
-
-    zipTo(File(buildDir, "abilities.zip"), abilitiesDir)
 }
