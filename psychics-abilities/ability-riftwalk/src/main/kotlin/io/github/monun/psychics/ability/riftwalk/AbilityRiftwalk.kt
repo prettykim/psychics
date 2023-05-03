@@ -38,12 +38,14 @@ class AbilityRiftwalk : ActiveAbility<AbilityConceptRiftwalk>(), Listener {
         val concept = concept
         val player = esper.player
 
-        val direction = player.location.toVector()
-        val destination = direction.normalize().multiply(concept.range).toLocation(player.world)
+        val location = player.location
+        val direction = location.direction
 
-        player.teleport(destination)
+        val to = location.clone().add(direction.clone().multiply(concept.range))
 
-        player.world.getNearbyLivingEntities(destination, 1.5).forEach {
+        player.teleport(to)
+
+        player.world.getNearbyLivingEntities(to, 1.5).forEach {
             if (it == player) {
                 return@forEach
             }
